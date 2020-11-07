@@ -23,16 +23,18 @@ Define two properties for client’s event
 ```javascript
 Server.NewClientJoined += (TcpClient client) =>
 {
-Console.WriteLine("new client join");
+    Console.WriteLine("new client join");
 };
 Server.ClientExited += (TcpClient client) =>
 {
-Console.WriteLine("client exit");
+    Console.WriteLine("client exit");
 };
 ```
 
 Now your server is ready to start, but before that we need to add listeners
+```javascript
 Server.AddListener("Login", Login);
+```
 In this example we add one listener with eventName “Login”.
 After the client sends a message with the same “eventName”, the Login function is invoked.
 
