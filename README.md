@@ -5,6 +5,8 @@
 
 First of all, create a “console project” in “dotnet core”.
 
+**download it from https://www.nuget.org/packages/TcpServerKit/**
+
 Add following namespaces
 
 ```javascript
