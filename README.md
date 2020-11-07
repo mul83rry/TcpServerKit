@@ -1,7 +1,8 @@
 # TcpServerKit
 
-**TcpServerKit_Unity** : TcpServerKit_Unity
-**see unity tutorial in https://github.com/mul83rry/TcpServerKit_Unity**
+
+**get unity package https://github.com/mul83rry/TcpServerKit_Unity**
+
 
 
 **Easy implementation**
