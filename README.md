@@ -227,18 +227,26 @@ It returns `true` if all users joined and the room is full of users.
 **Server**
 
 `OnlineClientsCounts` : returns online users count.
+
 `NewClientJoined` : invokes when new client joins.
+
 `ClientExited` : invokes when client Disconnects.
 
-InitServerAsGuest(string ip, int port) : set server ip and port.
-InitServer(string licencePath, int port) loads licence and gets server ip from licence and sets specified port.
-StartServer : start the server with specified ip and port.
-CloseConnection : disconnects a client from the server.
-Send(User user, string eventName, string message) : sends a string to user.
-AddListener(string eventName, MuEvent event) : adds a listener for server.
+`InitServerAsGuest(string ip, int port)` : set server ip and port.
+
+`InitServer(string licencePath, int port)` loads licence and gets server ip from licence and sets specified port.
+
+`StartServer` : start the server with specified ip and port.
+
+`CloseConnection` : disconnects a client from the server.
+
+`Send(User user, string eventName, string message)` : sends a string to user.
+
+`AddListener(string eventName, MuEvent event)` : adds a listener for server.
+
 
 muEvent :
-MuEvent(string data, TcpClient client)
+`MuEvent(string data, TcpClient client)`
 
 
 
@@ -246,45 +254,71 @@ MuEvent(string data, TcpClient client)
 
 **Room**
 
-UniqueId : Unique id of the room.
-Password : password of the room.
-UsersCount : range of users which can join the room.
-Level : level of room, room can have level for simple match making, type is a range.
-AccessMode : default value of access mode is `AccessMode.Public` which means any users can join it, `AccessMode.Private` is for no public Rooms and just with his `UniqueId` and users in it are available.
-GameStarted :  is the game already started or not.
-Users : users who joined the room.
-RoundsCount : returns number of game’s rounds
-AllUsersJoined : returns true if all of users are joined the room.
-AddUser : adds an user to the room.
-StartRound : starts the first playable round, if not available `GameCompleted` event will be invoked.
-CurrentRound : returns current playing round.
-RemoveUser : removes an user from the room.
-KickUser : kick an user from the room.
-GameComplete : returns true if the game has been completed.
-IsPlaying : returns true if any round is active and playing.
+`UniqueId` : Unique id of the room.
+
+`Password` : password of the room.
+
+`UsersCount` : range of users which can join the room.
+
+`Level` : level of room, room can have level for simple match making, type is a range.
+
+`AccessMode` : default value of access mode is `AccessMode.Public` which means any users can join it, `AccessMode.Private` is for no public Rooms and just with his `UniqueId` and users in it are available.
+
+`GameStarted` :  is the game already started or not.
+
+`Users` : users who joined the room.
+
+`RoundsCount` : returns number of game’s rounds
+
+`AllUsersJoined` : returns true if all of users are joined the room.
+
+`AddUser` : adds an user to the room.
+
+`StartRound` : starts the first playable round, if not available `GameCompleted` event will be invoked.
+
+`CurrentRound` : returns current playing round.
+
+`RemoveUser` : removes an user from the room.
+
+`KickUser` : kick an user from the room.
+
+`GameComplete` : returns true if the game has been completed.
+
+`IsPlaying` : returns true if any round is active and playing.
 
 
-GameCompleted() : invokes when game is completed
-NewUserJoined(User user) : invokes when a new user joins
-RoomReadyForStart(List<User> users) : invokes when room is ready to start
-RoundStarted(ushort roundId) : invokes when new round starts
-UserExited(User user) :  invokes when an user exits from the room
-UserKicked(User user) :  invokes when an user gets kicked from the room
+
+`GameCompleted()` : invokes when game is completed
+
+`NewUserJoined(User user)` : invokes when a new user joins
+
+`RoomReadyForStart(List<User> users)` : invokes when room is ready to start
+
+`RoundStarted(ushort roundId)` : invokes when new round starts
+
+`UserExited(User user)` :  invokes when an user exits from the room
+
+`UserKicked(User user)` :  invokes when an user gets kicked from the room
 
 
 
 **User**
 
-AddScore : adds score to the user in current playing round., type is double
-GetScore : gets score of the user in `currentRound` or specified round using the round index.
-UpdateClient : updates `TcpClient` of an user.
-Room : room which user is in.
+`AddScore` : adds score to the user in current playing round., type is double
+
+`GetScore` : gets score of the user in `currentRound` or specified round using the round index.
+
+`UpdateClient` : updates `TcpClient` of an user.
+
+`Room` : room which user is in.
+
 
 
 **Round**
 
-Index : returns index of the round.
-RoundComplete : completes the round.
+`Index` : returns index of the round.
+
+`RoundComplete` : completes the round.
 
 
 
@@ -296,32 +330,37 @@ RoundComplete : completes the round.
 
 **RoomManager Functions**
 
-var result = RoomManager.Join(user);
+`var result = RoomManager.Join(user);`
 Join a random room.
 
-var result = RoomManager.Join(id, user);
+`var result = RoomManager.Join(id, user);`
 Join to a room with id `id` which have not password
 
-var result = RoomManager.Join(level, user);
+`var result = RoomManager.Join(level, user);`
 Join to random room with level range `level`
 
-var result = RoomManager.Join(id, password, user);
+`var result = RoomManager.Join(id, password, user);`
 Join to a room with id `id` and password `password’
 
 
-var room = FindRoom(user)
+`var room = FindRoom(user)`
+
 Find room which user is in
 
-var room = FindRoom(id)
+`var room = FindRoom(id)`
+
 Find room with room `UniqueId` id
+
 
 
 UserManager Functions
 
-var user = FindUser(id)
+`var user = FindUser(id)`
+
 Find user with `UniqueId`.
 
-var user = FindUser(client)
+`var user = FindUser(client)`
+
 Find a user with its client.
 
 
