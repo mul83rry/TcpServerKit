@@ -57,7 +57,7 @@ And don’t forget to put a `Console.ReadKey();` To prevent the console from clo
 
 See the result.
 
-
+![mul83rry](https://github.com/mul83rry/TcpServerKit/blob/main/result.PNG)
 
 
 Now we will work with users and rooms.
@@ -218,7 +218,7 @@ For that we can check if all users joined the room with `AllUsersJoined`.
 It returns true if all users joined and the room is full of users.
 
 
-Server
+**Server**
 
 OnlineClientsCounts : returns online users count.
 NewClientJoined : invokes when new client joins.
@@ -238,7 +238,7 @@ MuEvent(string data, TcpClient client)
 
 
 
-Room
+**Room**
 
 UniqueId : Unique id of the room.
 Password : password of the room.
@@ -267,7 +267,7 @@ UserKicked(User user) :  invokes when an user gets kicked from the room
 
 
 
-User
+**User**
 
 AddScore : adds score to the user in current playing round., type is double
 GetScore : gets score of the user in `currentRound` or specified round using the round index.
@@ -275,7 +275,7 @@ UpdateClient : updates `TcpClient` of an user.
 Room : room which user is in.
 
 
-Round
+**Round**
 
 Index : returns index of the round.
 RoundComplete : completes the round.
@@ -288,7 +288,7 @@ RoundComplete : completes the round.
 
 
 
-RoomManager Functions
+**RoomManager Functions**
 
 var result = RoomManager.Join(user);
 Join a random room.
