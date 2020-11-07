@@ -100,7 +100,6 @@ using TcpServerKit.Manager;
  
     public class MyRoom : Room
     {
-        
         public MyRoom(int roundCount) : base(roundCount)
         {
  
@@ -108,7 +107,7 @@ using TcpServerKit.Manager;
  
         public override void GameCompleted()
         {
-		// invoke when game completed
+            // invoke when game completed
         }
  
         public override void NewUserJoined(User user)
@@ -159,7 +158,7 @@ In the first line create the user
 Next line writes a message on the console and shows the user's unique id, `UniqueId` automatically generated.
 And Users will automatically be added to the users list.
 
-Next line we send a message to the client with the event name “Login” and a json message which sends the user`s unique id.
+Next line we send a message to the client with the event name '“Login”' and a json message which sends the user`s unique id.
 
 Event name must be implemented at the client side.
 
@@ -188,14 +187,16 @@ Private void Join(string data, TcpClient client)
 ```
 
 In the first line we find the user with his client.
-Next line we will join the user to a random room and it returns “true” value if the user joins successfully.
+Next line we will join the user to a random room and it returns `true` value if the user joins successfully.
 
-Next line, if the result is “false”
-Create a new room and then join the user to it.
+Next line, if the result is `false`
+Create a new room and then join the `user` to it.
 Number `4` means the number of rounds of the game we're going to play, the default value is `2`.
 Next line we specify how many users can join this room.
 it can be a fixed value or a range of values,for example
+```javascript
 room.UsersCount = new TcpServerKit.Core.Range(2, 4);
+```
 
 Next line we add the user to the room.
 
@@ -210,23 +211,24 @@ After that all users join the room `RoomReadyForStart` will be invoked.
 ```javascript
 public override void RoomReadyForStart(List<User> users)
 {
-Console.WriteLine("RoomReadyForStart");            
+    Console.WriteLine("RoomReadyForStart");            
 }
 ```
 
 if we specify users count as a ranged value, in the previous example
-Our range is between 2 and 4.
-If users who join to room are 3 or 2, we can start the game but the room is not full yet.
+Our range is between `2` and `4`.
+If users who join to room are `3` or `2`, we can start the game but the room is not full yet.
 For that we can check if all users joined the room with `AllUsersJoined`.
 
-It returns true if all users joined and the room is full of users.
+It returns `true` if all users joined and the room is full of users.
+
 
 
 **Server**
 
-OnlineClientsCounts : returns online users count.
-NewClientJoined : invokes when new client joins.
-ClientExited : invokes when client Disconnects.
+`OnlineClientsCounts` : returns online users count.
+`NewClientJoined` : invokes when new client joins.
+`ClientExited` : invokes when client Disconnects.
 
 InitServerAsGuest(string ip, int port) : set server ip and port.
 InitServer(string licencePath, int port) loads licence and gets server ip from licence and sets specified port.
