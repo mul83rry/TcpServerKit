@@ -3,6 +3,9 @@
 
 **get unity package https://github.com/mul83rry/TcpServerKit_Unity**
 
+**get dotnet package https://github.com/mul83rry/TcpServerKit_Dotnet_Client**
+
+
 
 
 **Easy implementation**
