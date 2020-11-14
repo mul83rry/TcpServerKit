@@ -11,7 +11,7 @@
 **Easy implementation**
 
 
-First of all, create a “console project” in “dotnet core”.
+First of all, create a **console project** in [dotnet core](https://dotnet.microsoft.com/download) .
 
 **download it from https://www.nuget.org/packages/TcpServerKit/**
 
