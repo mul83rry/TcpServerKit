@@ -1,3 +1,4 @@
+
 # TcpServerKit
 
 
@@ -24,7 +25,7 @@ using TcpServerKit.Core.Tcp;
 Then initialize server ip and port
 
 ```javascript
-Server.InitServerAsGuest("127.0.0.1", 3000);
+Server.InitServer("127.0.0.1", 3000);
 ```
 
 Define two properties for client’s event
