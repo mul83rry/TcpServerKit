@@ -258,6 +258,7 @@ It returns `true` if all users joined and the room is full of users.
   `AddListener(string eventName, MuEvent event)` : adds a listener for
    server.
    
+   `Encoding` : Choose encoding and decoding type, defalt value if UTF8.
 
 > muEvent : `MuEvent(string data, TcpClient client)`
 
