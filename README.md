@@ -1,21 +1,13 @@
-
-
-
 # TcpServerKit
-
-
- 
+## _best choice for creating online multiplayer game Ever_
 
 ***A free package for creating online multiplayer games, using tcp protocol. includes clientside code and some other utilities to help online game developing faster.***
-</br>
-</br>
-</br>
 
 
-> **get unity package https://github.com/mul83rry/TcpServerKit_Unity**
-> **get dotnet package https://github.com/mul83rry/TcpServerKit_Dotnet_Client**
+- Get unity package https://github.com/mul83rry/TcpServerKit_Unity
+- Get dotnet package https://github.com/mul83rry/TcpServerKit_Dotnet_Client
 
-**Easy implementation**
+## Easy implementation
 
 First of all, create a **console project** in [dotnet core](https://dotnet.microsoft.com/download) .
 
@@ -24,7 +16,9 @@ First of all, create a **console project** in [dotnet core](https://dotnet.micro
 Add following namespaces
 
 ```javascript
-using TcpServerKit.Core.Tcp;
+using TcpServerKit.Core;
+using TcpServerKit.Core.Socket;
+using System.Net.Sockets;
 ```
 
 Then initialize server ip and port
@@ -53,7 +47,7 @@ In this example we add one listener with eventName “Login”.
 After the client sends a message with the same “eventName”, the Login function is invoked.
 
 ```javascript
-void Login(string data, TcpClient client)
+Task Login(string data, TcpClient client)
 {
  
 }
@@ -119,32 +113,32 @@ using TcpServerKit.Manager;
  
         }
  
-        public override void GameCompleted()
+        public override Task GameCompletedAsync()
         {
             // invoke when game completed
         }
  
-        public override void NewUserJoined(User user)
+        public override Task NewUserJoinedAsync(User user)
         {
             // invoke when new user joined
         }
  
-        public override void RoomReadyForStart(List<User> users)
+        public override Task RoomReadyForStartAsync(List<User> users)
         {
             // invoke when room ready for start
         }
  
-        public override void RoundStarted(ushort roundId)
+        public override Task RoundStartedAsync(ushort roundId)
         {
             // invoke when new round started
         }
  
-        public override void UserExited(User user)
+        public override Task UserExitedAsync(User user)
         {
             // invoke when an user exit from room or his connection lost
         }
  
-        public override void UserKicked(User user)
+        public override Task UserKickedAsync(User user)
         {
             // invoke when an user kicked from room
         }
@@ -157,14 +151,14 @@ So after creating my classes, we want to create a new `MyUser` object
 In the Login function create this.
 
 ```javascript
-Private void Login(string data, TcpClient client)
+private Task Login(string data, TcpClient client)
 {
   var user = new MyUser(client);
 
   Console.WriteLine("new user with UniqueId{user.UniqueId} logined");
   Server.Send(user, "Login", "{ \"result\": true, id: " +
       user.UniqueId + "}");
- 
+  return Task.CompletedTask;
 }
 ```
 
@@ -181,19 +175,19 @@ After this, we will join user to a room and start playing the game
 Add a new listener and name it `Join`.
 
 ```javascript
-Private void Join(string data, TcpClient client)
+private async Task JoinAsync(string data, TcpClient client)
 {
   Var user = UserManager.FindUser(client);
  
-  var result = RoomManager.Join(user);
+  var result = await RoomManager.JoinAsync(user);
  
   if (!result)
   {
       var room = new MyRoom(4);
       room.UsersCount = new TcpServerKit.Core.Range(2);
-      room.AddUser(user);
+      await room.AddUserAsync(user);
   }
-  Else
+  else
   {
       Server.Send(user, "Join", string.Empty);
   }
@@ -214,18 +208,20 @@ room.UsersCount = new TcpServerKit.Core.Range(2, 4);
 
 Next line we add the user to the room.
 
-After that `NewUserJoined` will be invoked.
+After that `NewUserJoinedAsync` will be invoked.
 ```javascript
-public override void NewUserJoined(User user)
+public override Task NewUserJoinedAsync(User user)
 {
   Console.WriteLine("new user with UniqueId{user.UniqueId} joined");
+  return Task.CompletedTask;
 }
 ```
-After that all users join the room `RoomReadyForStart` will be invoked.
+After that all users join the room `RoomReadyForStartAsync` will be invoked.
 ```javascript
-public override void RoomReadyForStart(List<User> users)
+public override Task RoomReadyForStartAsync(List<User> users)
 {
-    Console.WriteLine("RoomReadyForStart");            
+    Console.WriteLine("RoomReadyForStart");
+    return Task.CompletedTask;
 }
 ```
 
@@ -238,138 +234,126 @@ It returns `true` if all users joined and the room is full of users.
 
 
 
-**Server**
+##Server
 
-  `OnlineClientsCounts` : returns online users count.
+  - `OnlineClientsCounts` : returns online users count.
   
-  `NewClientJoined` : invokes when new client joins.
+  - `NewClientJoined` : invokes when new client joins.
   
-  `ClientExited` : invokes when client Disconnects.
+  - `ClientExited` : invokes when client Disconnects.
   
-  `InitServer(string ip, int port)` : set server ip and port.
+  - `InitServer(string ip, int port)` : set server ip and port.
   
-  `StartServer` : start the server with specified ip and port.
+  - `StartServer` : start the server with specified ip and port.
   
-  `CloseConnection` : disconnects a client from the server.
+  - `CloseConnection` : disconnects a client from the server.
   
-  `Send(User user, string eventName, string message)` : sends a string
+  - `Send(User user, string eventName, string message)` : sends a string
    to user.
    
-  `AddListener(string eventName, MuEvent event)` : adds a listener for
+  - `AddListener(string eventName, MuEvent event)` : adds a listener for
    server.
    
-   `Encoding` : Choose encoding and decoding type, defalt value if UTF8.
+   - `Encoding` : Choose encoding and decoding type, defalt value if UTF8.
 
 > muEvent : `MuEvent(string data, TcpClient client)`
 
 
+##Room
 
-
-**Room**
-
-  `UniqueId` : Unique id of the room.
+  - `UniqueId` : Unique id of the room.
   
-  `Password` : password of the room.
+  - `Password` : password of the room.
   
-  `UsersCount` : range of users which can join the room.
+  - `UsersCount` : range of users which can join the room.
   
-  `Level` : level of room, room can have level for simple match making,
+  - `Level` : level of room, room can have level for simple match making,
    type is a range.
    
-  `AccessMode` : default value of access mode is `AccessMode.Public`
+  - `AccessMode` : default value of access mode is `AccessMode.Public`
    which means any users can join it, `AccessMode.Private` is for no
    public Rooms and just with his `UniqueId` and users in it are
    available.
    
-  `GameStarted` :  is the game already started or not.
+  - `GameStarted` :  is the game already started or not.
   
-  `Users` : users who joined the room.
+  - `Users` : users who joined the room.
   
-  `RoundsCount` : returns number of game’s rounds.
+  - `RoundsCount` : returns number of game’s rounds.
   
-  `AllUsersJoined` : returns true if all of users are joined the room.
+  - `AllUsersJoined` : returns true if all of users are joined the room.
   
-  `AddUser` : adds an user to the room.
+  - `AddUserAsync` : adds an user to the room.
   
-  `StartRound` : starts the first playable round, if not available.
+  - `StartRoundAsync` : starts the first playable round, if not available.
   
-  `ForceGameToEnd` : will end the game immediately.
-  
-   `GameCompleted` event will be invoked.
+  - `ForceGameToEndAsync` : will end the game immediately. `GameCompletedAsync()` event will be invoked.
    
-  `CurrentRound` : returns current playing round.
+  - `CurrentRound` : returns current playing round.
   
-  `RemoveUser` : removes an user from the room.
+  - `RemoveUserAsync` : removes an user from the room.
   
-  `KickUser` : kick an user from the room.
+  - `KickUserAsync` : kick an user from the room.
   
-  `GameComplete` : returns true if the game has been completed.
+  - `GameComplete` : returns true if the game has been completed.
   
-  `IsPlaying` : returns true if any round is active and playing.
+  - `IsPlaying` : returns true if any round is active and playing.
   
-  `GameCompleted()` : invokes when game is completed.
+  - `GameCompletedAsync()` : invokes when game is completed.
   
-  `NewUserJoined(User user)` : invokes when a new user joins.
+  - `NewUserJoinedAsync(User user)` : invokes when a new user joins.
   
-  `RoomReadyForStart(List<User> users)` : invokes when room is ready to
+  - `RoomReadyForStartAsync(List<User> users)` : invokes when room is ready to
    start.
    
-  `RoundStarted(ushort roundId)` : invokes when new round starts.
+  - `RoundStartedAsync(ushort roundId)` : invokes when new round starts.
   
-  `UserExited(User user)` :  invokes when an user exits from the room.
+  - `UserExitedAsync(User user)` :  invokes when an user exits from the room.
   
-  `UserKicked(User user)` :  invokes when an user gets kicked from the
+  - `UserKickedAsync(User user)` :  invokes when an user gets kicked from the
    room.
-   
+  - `CleanUsers()` : remove users which not in room anymore
 
-**User**
+##User
 
- `AddScore` : adds score to the user in current playing round., type
+ - `AddScore` : adds score to the user in current playing round., type
    is double.
    
- `GetScore` : gets score of the user in `currentRound` or specified
+ - `GetScore` : gets score of the user in `currentRound` or specified
    round using the round index.
    
- `UpdateClient` : updates `TcpClient` of an user.
+ - `UpdateClient` : updates `TcpClient` of an user.
  
- `Room` : room which user is in.
+ - `Room` : room which user is in.
  
- `IsOnline` : return true if client is online.
+ - `IsOnline` : return true if client is online.
+ -  `InRoom` : return true if user is in room.
  
 
-**Round**
+##Round
 
- `Index` : returns index of the round.
+ - `Index` : returns index of the round.
  
- `RoundComplete` : completes the round.
+ - `RoundComplete` : completes the round.
 
-**RoomManager Functions**
+##RoomManager
 
- `var result = RoomManager.Join(user);` Join a random room.
+ - `var result = RoomManager.JoinAsync(user);` Join a random room.
 
- `var result = RoomManager.Join(id, user);` Join to a room with id
+ - `var result = RoomManager.JoinAsync(id, user);` Join to a room with id
    `id` which have not password.
 
- `var result = RoomManager.Join(level, user);` Join to random room
+ - `var result = RoomManager.JoinAsync(level, user);` Join to random room
    with level range `level`.
 
- `var result = RoomManager.Join(id, password, user);` Join to a room
-   with id `id` and password `password’.
+ - `var result = RoomManager.JoinAsync(id, password, user);` Join to a room
+   with id `id` and password `password`.
 
- `var room = FindRoom(user)`
+ - `var room = FindRoom(user)` Find room which user is in.
 
- Find room which user is in.
+ - `var room = FindRoom(id)` Find room with room `UniqueId` id.
 
- `var room = FindRoom(id)`
+##UserManager
 
-Find room with room `UniqueId` id.
-
-**UserManager Functions**
-
-  `var user = FindUser(id)`
-  
-  Find user with `UniqueId`.
-
- `var user = FindUser(client)`
- 
-  Find a user with its client.
+  - `var user = FindUser(id)` Find user with `UniqueId`.
+  - `var user = FindUser(client)` Find a user with its client.
