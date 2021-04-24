@@ -234,7 +234,7 @@ It returns `true` if all users joined and the room is full of users.
 
 
 
-##Server
+## Server
 
   - `OnlineClientsCounts` : returns online users count.
   
@@ -259,7 +259,7 @@ It returns `true` if all users joined and the room is full of users.
 > muEvent : `MuEvent(string data, TcpClient client)`
 
 
-##Room
+## Room
 
   - `UniqueId` : Unique id of the room.
   
@@ -314,7 +314,7 @@ It returns `true` if all users joined and the room is full of users.
    room.
   - `CleanUsers()` : remove users which not in room anymore
 
-##User
+## User
 
  - `AddScore` : adds score to the user in current playing round., type
    is double.
@@ -330,13 +330,13 @@ It returns `true` if all users joined and the room is full of users.
  -  `InRoom` : return true if user is in room.
  
 
-##Round
+## Round
 
  - `Index` : returns index of the round.
  
  - `RoundComplete` : completes the round.
 
-##RoomManager
+## RoomManager
 
  - `var result = RoomManager.JoinAsync(user);` Join a random room.
 
@@ -353,7 +353,7 @@ It returns `true` if all users joined and the room is full of users.
 
  - `var room = FindRoom(id)` Find room with room `UniqueId` id.
 
-##UserManager
+## UserManager
 
   - `var user = FindUser(id)` Find user with `UniqueId`.
   - `var user = FindUser(client)` Find a user with its client.
