@@ -155,7 +155,7 @@ private Task Login(string data, TcpClient client)
 {
   var user = new MyUser(client);
 
-  Console.WriteLine("new user with UniqueId{user.UniqueId} logined");
+  Console.WriteLine($"new user with UniqueId{user.UniqueId} logined");
   Server.Send(user, "Login", "{ \"result\": true, id: " +
       user.UniqueId + "}");
   return Task.CompletedTask;
