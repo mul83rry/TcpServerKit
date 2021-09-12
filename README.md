@@ -38,7 +38,7 @@ Server.ClientExited += (TcpClient client) =>
 
 Now your server is ready to start, but before that we need to add listeners
 ```javascript
-Server.AddListener("LoginAsync", Login);
+Server.AddListener("Login", LoginAsync);
 ```
 In this example we add one listener with eventName “Login”.
 After the client sends a message with the same “eventName”, the Login function is invoked.
