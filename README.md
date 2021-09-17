@@ -104,8 +104,8 @@ namespace TCPSERVERKIT_Sample
     {
         [Listener(name:"Login")]
         public async Task LoginAsync(string data, TcpClient client)
-				{
-				}
+		{
+		}
     }
 }
 ```
@@ -131,9 +131,9 @@ namespace TCPSERVERKIT_Sample
     {
         static void Main(string[] args)
         {
-						var ip = "127.0.0.1";
-						var port = 3000;
-						var newServer = new MyServer(ip, port);
+			var ip = "127.0.0.1";
+			var port = 3000;
+			var newServer = new MyServer(ip, port);
 
             var myListener = new MyListener();
 
