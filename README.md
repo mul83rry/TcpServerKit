@@ -147,3 +147,5 @@ namespace TCPSERVERKIT_Sample
 There is it. All you need is to run your server.
 
 And don’t forget to put a `Console.ReadKey();` to prevent the console from closing.
+
+Read more in TCPServerKit.com
