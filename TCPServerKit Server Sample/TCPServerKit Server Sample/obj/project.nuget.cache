@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "GvHc13eI6ze6b+BVS2HBBW7yUazDBZ7+Cc3jmDuKHWM9wqEY5wA1Fs91JQtrYwI+53XOztcDFB00yqL3euPauQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\hosei\\source\\repos\\TCPServerKit Server Sample\\TCPServerKit Server Sample\\TCPServerKit Server Sample.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hosei\\.nuget\\packages\\tcpserverkit\\1.7.0\\tcpserverkit.1.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}
