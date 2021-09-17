@@ -1,73 +1,149 @@
 
-# TcpServerKit
-## _best choice for creating online multiplayer game Ever_
+# Getting Started
 
-***A free package for creating online multiplayer games, using tcp protocol. includes clientside code and some other utilities to help online game developing faster.***
+First of all, create a Console Application project.
 
-## Easy implementation
 
-First of all, create a **console project** in [dotnet core](https://dotnet.microsoft.com/download) .
+## [Install package from nuget](https://www.nuget.org/packages/TcpServerKit/)
 
-**download it from https://www.nuget.org/packages/TcpServerKit/**
+Create a new Class and inherit from Server (*my class name is **`MyServer`***)
 
 Add following namespaces
 
-```javascript
-using TcpServerKit.Core;
-using TcpServerKit.Core.Socket;
+```csharp
 using System.Net.Sockets;
+using System.Threading.Tasks;
+using TcpServerKit.Core;
 ```
 
-Then initialize server ip and port
+Then declare the constructor
 
-```javascript
-Server.InitServer("127.0.0.1", 3000);
+```csharp
+public MyServer(string ip, int port) : base(ip, port) { }
 ```
 
-Define two properties for client’s event
-```javascript
-Server.NewClientJoined += (TcpClient client) =>
+And implement two abstract tasks
+
+```csharp
+public override async Task ClientExited(TcpClient client)
 {
-    Console.WriteLine("new client join");
-};
-Server.ClientExited += (TcpClient client) =>
-{
-    Console.WriteLine("client exit");
-};
-```
+     Console.WriteLine("client exited");
+}
 
-Now your server is ready to start, but before that we need to add listeners
-```javascript
-Server.AddListener("Login", LoginAsync);
-```
-In this example we add one listener with eventName “Login”.
-After the client sends a message with the same “eventName”, the Login function is invoked.
-
-```javascript
-Task LoginAsync(string data, TcpClient client)
+override async Task NewClientJoined(TcpClient client)
 {
- 
+    Console.WriteLine("new client");
 }
 ```
 
-`data` is a string data which client sends to the server and `client` is a TcpClient object of who sends it.
+The result must be something like this
 
+```csharp
+using System;
+using System.Net.Sockets;
+using System.Threading.Tasks;
+using TcpServerKit.Core;
+
+namespace TCPSERVERKIT_Sample
+{
+    class MyServer : Server
+    {
+        public MyServer(string ip, int port) : base(ip, port) { }
+
+        public override async Task ClientExited(TcpClient client)
+        {
+            Console.WriteLine("Client exited.");
+        }
+
+        public override async Task NewClientJoined(TcpClient client)
+        {
+            Console.WriteLine("New client.");
+        }
+    }
+}
+```
+
+Then create a new object from **`MyServer`** and set server IP and port.
+
+```csharp
+var ip = "127.0.0.1";
+var port = 3000;
+var newServer = new MyServer(ip, port);
+```
+
+Now our server is ready to start, but before that let's add some listeners.
+
+Create a new class and name it **`MyListener` and inherit from `ListenersManager`**
+
+Create one Tasks and set the `Listener` attribute to it.
+
+```csharp
+[Listener(name:"Login")]
+public async Task LoginAsync(string data, TcpClient client)
+{
+}
+```
+
+Tip: If we set the `name` of the attribute, the name of the event name witch server listens to changes. If not, the event name will be set with the task name. in there will be `"LoginAsync"`
+
+In this example we add one listener with name `Login`. After the client sends a message with the same event name, the `Login` task will be run.
+
+`data` is a string data which client sends to the server and `client` is a TCPClient object of who sends it.
+
+The result must be something like this.
+
+```csharp
+using System.Net.Sockets;
+using System.Threading.Tasks;
+using TcpServerKit.Attributes;
+using TcpServerKit.Manager;
+
+namespace TCPSERVERKIT_Sample
+{
+    public class MyListener : ListenersManager
+    {
+        [Listener(name:"Login")]
+        public async Task LoginAsync(string data, TcpClient client)
+				{
+				}
+    }
+}
+```
+
+Then create a new object from `MyListener`.
+
+```csharp
+var myListener = new MyListener();
+```
 
 Very well. After adding all of the listeners we can start the server.
 
-```javascript
-Server.StartServer();
+```csharp
+newServer.Start();
 ```
 
-There is it. All you need to run your server.
+```csharp
+using System;
 
-And don’t forget to put a `Console.ReadKey();` To prevent the console from closing.
+namespace TCPSERVERKIT_Sample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+						var ip = "127.0.0.1";
+						var port = 3000;
+						var newServer = new MyServer(ip, port);
 
+            var myListener = new MyListener();
 
-***See the result.***
+            newServer.Start();
+            Console.ReadKey();
+        }
+    }
+}
+```
 
-![mul83rry](https://github.com/mul83rry/TcpServerKit/blob/main/result.PNG)
+There is it. All you need is to run your server.
 
-For more information check website : [TcpServerKit](https://tcpserverkit.com/)
-
-
+And don’t forget to put a `Console.ReadKey();` to prevent the console from closing.
