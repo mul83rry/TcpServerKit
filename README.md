@@ -30,7 +30,7 @@ public override async Task ClientExited(TcpClient client)
      Console.WriteLine("client exited");
 }
 
-override async Task NewClientJoined(TcpClient client)
+override override async Task NewClientJoined(TcpClient client)
 {
     Console.WriteLine("new client");
 }
